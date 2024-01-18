@@ -29,7 +29,7 @@ export default async function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={cn(inter.className, "overflow-x-hidden bg-gray-100")}>
+        <body className={cn(inter.className, "overflow-x-hidden bg-gray-100 dark:bg-gray-900")}>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"

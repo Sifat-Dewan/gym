@@ -96,7 +96,7 @@ const RecentMembers = async () => {
         {members.map((member) => (
           <div
             key={member.id}
-            className="flex items-center justify-between even:bg-accent px-3 py-2 rounded-lg"
+            className="flex border-b border-dashed shadow-sm items-center justify-between px-3 py-2 rounded-lg"
           >
             <div className="flex items-center gap-3">
               <Avatar image={member.image} alt={member.name} />
