@@ -12,7 +12,7 @@ export async function cancelAdmission() {
     };
   }
 
-  const member = await db.member.findUnique({
+  const member = await db.member.findFirst({
     where: {
       email: user.email,
     },

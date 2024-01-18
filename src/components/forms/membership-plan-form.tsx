@@ -25,12 +25,12 @@ import toast from "react-hot-toast";
 import { CardWrapper } from "../card-wrapper";
 import { Benefit } from "@prisma/client";
 import { Checkbox } from "../ui/checkbox";
-import { PlanWithBenefits } from "@/types";
+import { FullMembershipPlan } from "@/types";
 import { useRouter } from "next/navigation";
 
 interface MembershipPlanFormProps {
   membershipBenefits: Benefit[];
-  membershipPlan?: PlanWithBenefits;
+  membershipPlan?: FullMembershipPlan;
 }
 
 export const MembershipPlanForm = ({

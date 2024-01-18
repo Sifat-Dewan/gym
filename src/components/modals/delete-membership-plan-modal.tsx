@@ -34,7 +34,7 @@ export const DeleteMembershipPlanModal = () => {
           onClose();
           router.refresh();
         } else if (error) {
-          toast.success(error);
+          toast.error(error);
         } else {
           toast.error("Something went wrong");
         }

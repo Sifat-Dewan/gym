@@ -20,7 +20,7 @@ const SuccessPage = async ({
 
   const success = searchParams.success === "true";
 
-  const member = await db.member.findUnique({
+  const member = await db.member.findFirst({
     where: {
       email: user.email,
       isPaid: false,

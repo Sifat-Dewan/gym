@@ -1,15 +1,14 @@
 "use client";
 
-import { PlanWithBenefits } from "@/types";
-import { MembershipPlan, User } from "@prisma/client";
-import { Check, CheckCircle2, Edit, Trash } from "lucide-react";
-import { Button, buttonVariants } from "./ui/button";
-import Link from "next/link";
-import { cn, formatText, isModerator } from "@/lib/utils";
 import { useModal } from "@/hooks/use-modal-store";
+import { cn, formatText } from "@/lib/utils";
+import { FullMembershipPlan } from "@/types";
+import { Check, Edit, Trash } from "lucide-react";
+import Link from "next/link";
+import { Button, buttonVariants } from "./ui/button";
 
 interface MembershipPlanCardProps {
-  membershipPlan: PlanWithBenefits;
+  membershipPlan: FullMembershipPlan;
   isModerator?: boolean;
 }
 
@@ -42,6 +41,7 @@ export const MembershipPlanCard = ({
         {isModerator ? (
           <>
             <Button
+            // disabled={!!membershipPlan.members.length}
               onClick={() =>
                 onOpen("DELETE_MEMBERSHIP_PLAN_MODAL", {
                   membershipPlanId: membershipPlan.id,

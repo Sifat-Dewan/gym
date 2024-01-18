@@ -1,6 +1,7 @@
 import { getMembers } from "@/actions/members-action";
 import { getGraphRevenue, getRevenue } from "@/actions/revenue";
 import { Avatar } from "@/components/avatar";
+import { DumbleLoader } from "@/components/dumble-loader/dumble-loader";
 import { Overview } from "@/components/overview";
 import { PageHeader } from "@/components/page-header";
 import db from "@/lib/db";
@@ -67,7 +68,7 @@ const DashboardPage = async () => {
         {revenueCard.map((item, index) => (
           <div
             key={index}
-            className="relative space-y-1 rounded-lg border shadow p-4 dark:bg-secondary/50"
+            className="relative space-y-1 rounded-lg border shadow p-4 bg-background"
           >
             <h4 className="font-semibold">{item.label}</h4>
             <h3 className="font-bold text-2xl text-primary">{item.count}</h3>
@@ -89,7 +90,7 @@ const DashboardPage = async () => {
 const RecentMembers = async () => {
   const members = await getMembers();
   return (
-    <div className="border p-5 space-y-5 rounded-xl dark:bg-secondary/50">
+    <div className="border p-5 space-y-5 rounded-xl bg-background">
       <h3 className="text-xl font-semibold">Recent Admissions</h3>
       <div>
         {members.map((member) => (

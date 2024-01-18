@@ -4,7 +4,7 @@ import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 export function Overview({ data }: { data: any[] }) {
   return (
-    <div className="overflow-x-auto w-full border rounded-xl space-y-5 p-5 pl-0 dark:bg-secondary/50">
+    <div className="overflow-x-auto w-full border rounded-xl space-y-5 p-5 pl-0 bg-background">
       <h3 className="font-semibold text-2xl ml-5">Overview</h3>
       <ResponsiveContainer width="100%" minWidth={500} height={350} className="">
         <BarChart data={data}>

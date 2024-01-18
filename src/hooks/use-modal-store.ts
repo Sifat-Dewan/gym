@@ -1,4 +1,4 @@
-import { MemberWithPlan, PlanWithBenefits } from "@/types";
+import { FullMembershipPlan, MemberWithPlan } from "@/types";
 import { Benefit, Faq } from "@prisma/client";
 import { create } from "zustand";
 
@@ -20,7 +20,7 @@ export type ModalType =
   | "DELETE_FAQ_MODAL"
   | "DELETE_ANSWER_MODAL"
 interface ModalData {
-  membershipPlans?: PlanWithBenefits[];
+  membershipPlans?: FullMembershipPlan[];
   membershipPlanId?: string;
   memberId?: string;
   benefit?: Benefit;

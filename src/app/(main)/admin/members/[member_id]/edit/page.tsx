@@ -44,6 +44,7 @@ const EditMemberPage = async ({
         member={member}
         membershipPlans={membershipPlans}
         selectedPlan={selectedPlan}
+        isModerator
       />
     </div>
   );

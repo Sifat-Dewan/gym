@@ -16,6 +16,7 @@ const EditMembershipPlanPage = async ({
     },
     include: {
       benefits: true,
+      members: true,
     },
   });
 

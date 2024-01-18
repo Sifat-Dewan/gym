@@ -10,6 +10,7 @@ export async function getMembershipPlans() {
   const plans = await db.membershipPlan.findMany({
     include: {
       benefits: true,
+      members: true,
     },
     orderBy: {
       price: "asc",
@@ -21,51 +22,55 @@ export async function getMembershipPlans() {
 export async function createMembershipPlan(
   values: z.infer<typeof MembershipPlanSchema>
 ) {
-  const validatedFields = MembershipPlanSchema.safeParse(values);
+  try {
+    const validatedFields = MembershipPlanSchema.safeParse(values);
 
-  if (!validatedFields.success) {
-    return { error: "Invalid fields!" };
-  }
-
-  const membershipPlan = await db.membershipPlan.findFirst({
-    where: {
-      OR: [
-        {
-          name: values.name.toUpperCase(),
-        },
-        {
-          price: values.price,
-        },
-        {
-          durationInMonth: values.durationInMonth,
-        },
-      ],
-    },
-  });
-
-  if (membershipPlan) {
-    return {
-      error: "Same Name or Price or duration already exists",
-    };
-  }
-
-  const user = await currentUser();
-
-  if (!user || user.role !== "ADMIN") {
-    return { error: "Permission denied" };
-  }
-
-  await db.membershipPlan.create({
-    data: {
-      ...values,
-      name: values.name,
-      benefits: {
-        connect: values.benefitIds.map((benefitId) => ({ id: benefitId })),
+    if (!validatedFields.success) {
+      return { error: "Invalid fields!" };
+    }
+  
+    const membershipPlan = await db.membershipPlan.findFirst({
+      where: {
+        OR: [
+          {
+            name: values.name.toUpperCase(),
+          },
+          {
+            price: values.price,
+          },
+          {
+            durationInMonth: values.durationInMonth,
+          },
+        ],
       },
-    },
-  });
-
-  return { success: "Membership Plan Created!" };
+    });
+  
+    if (membershipPlan) {
+      return {
+        error: "Same Name or Price or duration already exists",
+      };
+    }
+  
+    const user = await currentUser();
+  
+    if (!user || user.role !== "ADMIN") {
+      return { error: "Permission denied" };
+    }
+  
+    await db.membershipPlan.create({
+      data: {
+        ...values,
+        name: values.name,
+        benefits: {
+          connect: values.benefitIds.map((benefitId) => ({ id: benefitId })),
+        },
+      },
+    });
+  
+    return { success: "Membership Plan Created!" };
+  } catch (error) {
+    return {error: "Something went wrong"}
+  }
 }
 
 export async function updateMembershipPlan({
@@ -125,25 +130,29 @@ export async function updateMembershipPlan({
 }
 
 export async function deleteMembershipPlan(membershipPlanId: string) {
-  const user = await currentUser();
+  try {
+    const user = await currentUser();
 
-  if (!user) {
-    return { error: "Unauthenticated" };
+    if (!user) {
+      return { error: "Unauthenticated" };
+    }
+  
+    if (!membershipPlanId) {
+      return { error: "Membership plan Id is requried" };
+    }
+  
+    if (!isModerator(user)) {
+      return { error: "Only admin or moderator have this permission" };
+    }
+  
+    await db.membershipPlan.delete({
+      where: {
+        id: membershipPlanId,
+      },
+    });
+  
+    return { success: "Membership Plan Deleted!" };
+  } catch (error) {
+    return {error: "Something went wrong"};
   }
-
-  if (!membershipPlanId) {
-    return { error: "Membership plan Id is requried" };
-  }
-
-  if (!isModerator(user)) {
-    return { error: "Only admin or moderator have this permission" };
-  }
-
-  await db.membershipPlan.delete({
-    where: {
-      id: membershipPlanId,
-    },
-  });
-
-  return { success: "Membership Plan Deleted!" };
 }

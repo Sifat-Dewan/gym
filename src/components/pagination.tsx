@@ -33,7 +33,7 @@ export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
       <Button
         disabled={currentPage === 1}
         onClick={() => handleClick(currentPage - 1)}
-        className="bg-neutral-900 hover:bg-neutral-900/90 dark:bg-slate-100 dark:hover:bg-slate-100/90 dark:text-neutral-900"
+        variant="default"
       >
         <ChevronsLeft className="h-4 w-4 mr-2" />
         Prev
@@ -44,7 +44,7 @@ export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
       <Button
         disabled={currentPage === totalPages}
         onClick={() => handleClick(currentPage + 1)}
-        className="bg-neutral-900 hover:bg-neutral-900/90 dark:bg-slate-100 dark:hover:bg-slate-100/90 dark:text-neutral-900"
+        variant="default"
       >
         Next
         <ChevronsRight className="h-4 w-4 ml-2" />

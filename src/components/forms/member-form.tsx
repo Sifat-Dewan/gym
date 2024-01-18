@@ -19,7 +19,7 @@ import { useConfettiStore } from "@/hooks/use-confetti-store";
 import { useModal } from "@/hooks/use-modal-store";
 import { getEndingDate } from "@/lib/utils";
 import { MemberSchema } from "@/schemas";
-import { MemberWithPlan, PlanWithBenefits } from "@/types";
+import { MemberWithPlan, FullMembershipPlan } from "@/types";
 import { Gender, MembershipPlan } from "@prisma/client";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -46,7 +46,7 @@ export const MemberForm = ({
   admissionFee = 0,
   isModerator,
 }: {
-  membershipPlans: PlanWithBenefits[];
+  membershipPlans: FullMembershipPlan[];
   selectedPlan: MembershipPlan;
   member?: MemberWithPlan;
   admissionFee?: number;
@@ -62,6 +62,7 @@ export const MemberForm = ({
     defaultValues: {
       name: member?.name || "",
       phone: member?.phone || "",
+      memberId: member?.memberId || "",
       email: (member?.email as string) || "",
       address: member?.address || "",
       age: member?.age || undefined,
@@ -72,6 +73,8 @@ export const MemberForm = ({
   });
 
   const pronoun = isModerator ? "Member's" : "Your";
+
+  console.log(typeof(form.getValues("memberId")))
 
   function onSubmit(values: z.infer<typeof MemberSchema>) {
     const endDate = getEndingDate({
@@ -185,6 +188,26 @@ export const MemberForm = ({
               )}
             />
           </div>
+          {isModerator && (
+            <FormField
+              control={form.control}
+              name="memberId"
+              render={({ field }) => (
+                <FormItem className="sm:col-span-5">
+                  <FormLabel>Id</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={`Enter ${pronoun} Id`}
+                      isPending={isPending}
+                      {...field}
+                      type="number"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
           <FormField
             control={form.control}
             name="address"

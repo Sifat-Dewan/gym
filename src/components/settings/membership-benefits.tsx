@@ -25,7 +25,7 @@ export const MembershipBenefits = ({ benefits }: MembershipBenefitsProps) => {
   return (
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
-        <AccordionTrigger className="hover:no-underline bg-secondary/50 px-3 rounded-xl">
+        <AccordionTrigger className="hover:no-underline bg-background hover:bg-background/80 cursor-pointer px-3 rounded-xl">
           <div className="flex items-center gap-3">
             <TableProperties className="h-5 w-5" />
             Membership Plan Benefits

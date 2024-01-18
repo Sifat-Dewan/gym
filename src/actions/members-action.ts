@@ -100,6 +100,12 @@ export const getMembers = async ({
                   mode: "insensitive",
                 },
               },
+              {
+                memberId: {
+                  contains: q,
+                  mode: "insensitive",
+                },
+              },
             ],
           }
         : gender
@@ -160,13 +166,13 @@ export async function createMember({
     return { error: "Unauthenticated!" };
   }
 
-  const existingEmail = await db.member.findUnique({
+  const existingEmail = await db.member.findFirst({
     where: {
       email: values.email,
     },
   });
 
-  if (existingEmail) {
+  if (values.email && existingEmail) {
     return { error: "Email already exists" };
   }
 
@@ -177,15 +183,12 @@ export async function createMember({
   });
 
   if (existingPhone) {
-    return { error: "Email already exists" };
+    return { error: "Phone already exists" };
   }
-
-  const totalMembers = await db.member.count();
 
   await db.member.create({
     data: {
       ...values,
-      memberId: totalMembers + 1,
       cost,
       endDate,
       membershipPlanId,

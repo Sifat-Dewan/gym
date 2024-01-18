@@ -22,10 +22,12 @@ export const MemberSchema = z.object({
         message: "Invalid Email",
       }
     ),
+  memberId: z
+    .string().min(1, {message: "Id is required"}),
   address: z
     .string()
-    .min(5, { message: "Address is too short" })
-    .max(70, { message: "Address is too long" }),
+    .max(70, { message: "Address is too long" })
+    .optional(),
   age: z.coerce
     .number({
       required_error: "phone is required",

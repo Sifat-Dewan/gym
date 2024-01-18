@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal-store";
 import { formatText } from "@/lib/utils";
-import { MemberWithPlanAndRenew, PlanWithBenefits } from "@/types";
+import { MemberWithPlanAndRenew, FullMembershipPlan } from "@/types";
 import { MembershipPlan } from "@prisma/client";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -16,7 +16,7 @@ export const RenewMemberForm = ({
   selectedPlan,
   member,
 }: {
-  membershipPlans: PlanWithBenefits[];
+  membershipPlans: FullMembershipPlan[];
   selectedPlan: MembershipPlan;
   member: MemberWithPlanAndRenew;
 }) => {

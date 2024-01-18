@@ -2,13 +2,13 @@
 
 import { useModal } from "@/hooks/use-modal-store";
 import { formatText } from "@/lib/utils";
-import { PlanWithBenefits } from "@/types";
+import { FullMembershipPlan } from "@/types";
 import { MembershipPlan } from "@prisma/client";
 import { motion, useAnimation } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 
 interface MembershipPlanPickerProps {
-  membershipPlans: PlanWithBenefits[];
+  membershipPlans: FullMembershipPlan[];
   selectedPlan: MembershipPlan;
 }
 

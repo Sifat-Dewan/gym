@@ -9,7 +9,7 @@ export const AdmissionFee = ({ admissionFee }: { admissionFee?: number }) => {
   return (
     <div
       onClick={() => onOpen("ADMISSION_FEE_MODAL", { admissionFee })}
-      className="p-3 flex items-center rounded-xl bg-secondary/50 hover:bg-neutral-300 dark:hover:bg-neutral-900 transition"
+      className="p-3 flex items-center rounded-xl bg-background hover:bg-background/80 dark:hover:bg-neutral-900 transition cursor-pointer"
     >
       <div className="flex items-center gap-3">
         <Wallet2 className="h-5 w-5" />

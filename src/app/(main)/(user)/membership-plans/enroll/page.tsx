@@ -13,7 +13,7 @@ const Page = async ({
   const membershipPlans = await getMembershipPlans();
   const user = await currentUser();
 
-  const existingMember = await db.member.findUnique({
+  const existingMember = await db.member.findFirst({
     where: {
       email: user?.email,
     },

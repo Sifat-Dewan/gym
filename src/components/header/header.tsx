@@ -14,7 +14,7 @@ export const Header = ({ user }: { user: User | null }) => {
   const pathname = usePathname();
   const isLoginPage = pathname === "/auth/sign-in";
   return (
-    <header className="sticky z-50 bg-background top-0 inset-x-0 border-b">
+    <header className="sticky z-50 bg-background/80 backdrop-blur-lg top-0 inset-x-0 border-b">
       <MaxWidthWrapper className="py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">

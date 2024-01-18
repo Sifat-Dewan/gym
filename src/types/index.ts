@@ -1,7 +1,8 @@
 import { Benefit, Member, MembershipPlan, Renew } from "@prisma/client";
 
-export type PlanWithBenefits = MembershipPlan & {
+export type FullMembershipPlan = MembershipPlan & {
   benefits: Benefit[];
+  members: Member[]
 };
 
 export type MemberWithPlan = Member & {

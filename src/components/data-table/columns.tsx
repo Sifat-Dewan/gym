@@ -13,10 +13,10 @@ import { MemberWithPlanAndRenew } from "@/types";
 export const columns: ColumnDef<MemberWithPlanAndRenew>[] = [
   {
     accessorKey: "memberId",
-    header: "Id",
+    header: "ID",
     cell: ({ row }) => {
       const id = row.original.memberId;
-      return id < 10 ? `0${id}` : id;
+      return Number(id) < 10 ? `0${id}` : id;
     },
   },
   {
