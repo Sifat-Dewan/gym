@@ -23,7 +23,7 @@ import { MemberWithPlan, FullMembershipPlan } from "@/types";
 import { Gender, MembershipPlan } from "@prisma/client";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import { CardWrapper } from "../card-wrapper";
 import { DatePicker } from "../date-picker";
@@ -55,7 +55,7 @@ export const MemberForm = ({
   const [isPending, startTranistion] = useTransition();
   const router = useRouter();
   const confetti = useConfettiStore();
-  const { onClose } = useModal();
+  const { onOpen, onClose } = useModal();
   const FramerButton = motion(Button);
   const form = useForm<z.infer<typeof MemberSchema>>({
     resolver: zodResolver(MemberSchema),
@@ -74,7 +74,7 @@ export const MemberForm = ({
 
   const pronoun = isModerator ? "Member's" : "Your";
 
-  console.log(typeof(form.getValues("memberId")))
+  console.log(typeof form.getValues("memberId"));
 
   function onSubmit(values: z.infer<typeof MemberSchema>) {
     const endDate = getEndingDate({
@@ -122,6 +122,9 @@ export const MemberForm = ({
       }
     });
   }
+
+
+
   return (
     <CardWrapper>
       {membershipPlans && !member && (
@@ -213,7 +216,7 @@ export const MemberForm = ({
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address</FormLabel>
+                <FormLabel>Address (optional)</FormLabel>
                 <FormControl>
                   <Input
                     isPending={isPending}
@@ -327,7 +330,9 @@ export const MemberForm = ({
                 <span className="text-primary">{admissionFee}৳</span>
               </p>
               <Separator className="h-[1.5px]" />
-              <p className="text-muted-foreground font-semibold">
+              <p
+                className="text-muted-foreground select-none font-semibold"
+              >
                 Total:{" "}
                 <span className="text-primary">
                   {selectedPlan.price + admissionFee}৳

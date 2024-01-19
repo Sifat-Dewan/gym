@@ -106,3 +106,8 @@ export const AnswerSchema = z.object({
     message: "Answer is too long. Expected at least 10 characters.",
   }),
 });
+
+export const ChangeCostSchema = z.object({
+  membershipPlanCost: z.coerce.number().nullable(),
+  admissionFee: z.coerce.number().nullable(),
+})

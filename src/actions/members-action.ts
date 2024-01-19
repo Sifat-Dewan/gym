@@ -12,7 +12,7 @@ import * as z from "zod";
 export type OrderBy = "asc" | "desc";
 export const getMembers = async ({
   type,
-  take = 10,
+  take,
   page = 1,
   q,
   gender,
@@ -28,7 +28,7 @@ export const getMembers = async ({
   membershipPlan?: string;
 } = {}) => {
   const today = new Date();
-  const skip = (page - 1) * take;
+  const skip = (page - 1) * (take || 0);
 
   const members = await db.member.findMany({
     where: {
@@ -136,7 +136,7 @@ export const getMembers = async ({
       membershipPlan: true,
       renews: true,
     },
-    take,
+    ...(take ? {take} : {}),
     skip,
   });
 

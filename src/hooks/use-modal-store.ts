@@ -19,6 +19,7 @@ export type ModalType =
   | "ANSWER_MODAL"
   | "DELETE_FAQ_MODAL"
   | "DELETE_ANSWER_MODAL"
+  | "CHANGE_COST_MODAL"
 interface ModalData {
   membershipPlans?: FullMembershipPlan[];
   membershipPlanId?: string;
@@ -26,6 +27,7 @@ interface ModalData {
   benefit?: Benefit;
   member?: MemberWithPlan;
   admissionFee?: number;
+  membershipPlanCost?: number;
   faq?: Faq;
   isModerator?: boolean;
 }

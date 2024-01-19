@@ -4,6 +4,7 @@ import { AdmissionFeeModal } from "@/components/modals/admission-fee-modal";
 import { AnswerModal } from "@/components/modals/answer-modal";
 import { ApproveMemberModal } from "@/components/modals/approve-member-modal";
 import { CancelAdmissionModal } from "@/components/modals/cancel-admission-modal";
+import { ChangeCostModal } from "@/components/modals/chnage-cost-modal";
 import { DeleteBenefitModal } from "@/components/modals/delete-benefit-modal";
 import { DeleteFaqModal } from "@/components/modals/delete-faq-modal";
 import { DeleteMemberModal } from "@/components/modals/delete-member-modal";
@@ -39,6 +40,7 @@ const ModalProvider = () => {
       <QuestionModal />
       <AnswerModal />
       <DeleteFaqModal />
+      <ChangeCostModal/>
     </>
   );
 };
