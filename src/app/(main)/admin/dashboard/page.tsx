@@ -1,7 +1,6 @@
 import { getMembers } from "@/actions/members-action";
 import { getGraphRevenue, getRevenue } from "@/actions/revenue";
 import { Avatar } from "@/components/avatar";
-import { DumbleLoader } from "@/components/dumble-loader/dumble-loader";
 import { Overview } from "@/components/overview";
 import { PageHeader } from "@/components/page-header";
 import db from "@/lib/db";
@@ -22,6 +21,7 @@ const DashboardPage = async () => {
   const savedRevenue =
     (await db.defaultSettings.findFirst().then((res) => res?.savedRevenue)) ||
     0;
+  
   const revenueCard = [
     {
       label: "Total Revenue",

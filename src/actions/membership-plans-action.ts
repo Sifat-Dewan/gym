@@ -103,7 +103,6 @@ export async function updateMembershipPlan({
   const plan = await db.membershipPlan.findUnique({
     where: {
       id: membershipPlanId,
-      name: values.name.toUpperCase(),
     },
     include: {
       benefits: true,
@@ -119,6 +118,7 @@ export async function updateMembershipPlan({
       id: membershipPlanId,
     },
     data: {
+      ...values,
       benefits: {
         disconnect: plan.benefits.map((benefit) => ({ id: benefit.id })),
         connect: values.benefitIds.map((benefitId) => ({ id: benefitId })),

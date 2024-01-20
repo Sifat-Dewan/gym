@@ -40,7 +40,7 @@ const EditMemberPage = async ({
     <div className="space-y-3">
       <PageHeader label="Edit Member" />
       <MemberForm
-        admissionFee={defaultSettings?.admissionFee}
+        admissionFee={defaultSettings?.admissionFee || 0}
         member={member}
         membershipPlans={membershipPlans}
         selectedPlan={selectedPlan}

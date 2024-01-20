@@ -41,7 +41,7 @@ export const MembershipPlanCard = ({
         {isModerator ? (
           <>
             <Button
-            // disabled={!!membershipPlan.members.length}
+              disabled={!!membershipPlan.members.length}
               onClick={() =>
                 onOpen("DELETE_MEMBERSHIP_PLAN_MODAL", {
                   membershipPlanId: membershipPlan.id,
@@ -54,7 +54,7 @@ export const MembershipPlanCard = ({
               Delete
             </Button>
             <Link
-              href={`/membership-plans/${membershipPlan.id}/edit`}
+              href={`/admin/membership-plans/${membershipPlan.id}/edit`}
               className={cn(buttonVariants({ variant: "secondary" }), "w-full")}
             >
               <Edit className="h-4 w-4 mr-2 mb-0.5" />

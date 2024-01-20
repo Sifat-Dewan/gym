@@ -145,13 +145,9 @@ export const getMembers = async ({
 
 export async function createMember({
   values,
-  endDate,
-  cost,
   membershipPlanId,
 }: {
   values: z.infer<typeof MemberSchema>;
-  endDate: Date;
-  cost: number;
   membershipPlanId: string;
 }) {
   const validatedFields = MemberSchema.safeParse(values);
@@ -186,11 +182,33 @@ export async function createMember({
     return { error: "Phone already exists" };
   }
 
+  const membershipPlan = await db.membershipPlan.findUnique({
+    where: {
+      id: membershipPlanId,
+    },
+  });
+
+  if (!membershipPlan) {
+    return { error: "Membership plan not found" };
+  }
+
+  const admissionFee =
+    (await db.defaultSettings.findFirst().then((res) => res?.admissionFee)) ||
+    0;
+
+  const startDate = new Date();
+  const endDate = new Date(startDate);
+  endDate.setMonth(endDate.getMonth() + membershipPlan.durationInMonth);
+
+  const cost = membershipPlan.price + admissionFee;
+
   await db.member.create({
     data: {
       ...values,
-      cost,
+      startDate,
+      age: values.age || 0,
       endDate,
+      cost,
       membershipPlanId,
       ...(isModerator(user) ? { isPaid: true } : { email: user.email }),
     },
@@ -204,11 +222,9 @@ export async function createMember({
 export async function updateMember({
   values,
   memberId,
-  endDate,
 }: {
   values: z.infer<typeof MemberSchema>;
   memberId: string;
-  endDate: Date;
 }) {
   const validatedFields = MemberSchema.safeParse(values);
 
@@ -228,6 +244,23 @@ export async function updateMember({
   if (!memberId) {
     return { error: "Member ID is required" };
   }
+
+  const member = await db.member.findUnique({
+    where: {
+      id: memberId,
+    },
+    include: {
+      membershipPlan: true,
+    },
+  });
+
+  if (!member) {
+    return { error: "Member not found" };
+  }
+
+  const startDate = new Date();
+  const endDate = new Date(startDate);
+  endDate.setMonth(endDate.getMonth() + member.membershipPlan.durationInMonth);
 
   await db.member.update({
     where: {

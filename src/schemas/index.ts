@@ -29,12 +29,7 @@ export const MemberSchema = z.object({
     .max(70, { message: "Address is too long" })
     .optional(),
   age: z.coerce
-    .number({
-      required_error: "phone is required",
-      invalid_type_error: "Phone is required",
-    })
-    .min(8, { message: "Minimum age must be 8 years" })
-    .max(100, { message: "Maximum age must be 100 years" }),
+    .number().optional(),
   gender: z.nativeEnum(Gender, {
     required_error: "Gender is required",
     invalid_type_error: "Gender is required",
