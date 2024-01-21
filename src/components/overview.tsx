@@ -10,19 +10,19 @@ export function Overview({ data }: { data: any[] }) {
         <BarChart data={data}>
           <XAxis
             dataKey="name"
-            stroke="#E11D48"
+            stroke="#6d28d9"
             fontSize={12}
             tickLine={false}
             axisLine={false}
           />
           <YAxis
-            stroke="#E11D48"
+            stroke="#6d28d9"
             fontSize={12}
             tickLine={false}
             axisLine={false}
             tickFormatter={(value) => `৳${value}`}
           />
-          <Bar dataKey="total" fill="#E11D48" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="total" fill="#6d28d9" radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

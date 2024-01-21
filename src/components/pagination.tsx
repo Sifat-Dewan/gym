@@ -4,6 +4,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "./ui/button";
 import { ChevronsLeft, ChevronsRight } from "lucide-react";
 import qs from "query-string";
+import { useEffect, useState } from "react";
+import { Loader } from "./loader";
 
 interface PaginationProps {
   currentPage: number;
@@ -11,11 +13,13 @@ interface PaginationProps {
 }
 
 export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const params = useSearchParams();
 
   const handleClick = (page: number) => {
+    setIsLoading(true);
     const currentQuery = qs.parse(params.toString());
     const url = qs.stringifyUrl({
       url: pathname,
@@ -25,8 +29,12 @@ export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
       },
     });
 
-    router.push(url);
+    router.push(url, { scroll: false });
   };
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [params]);
 
   return (
     <div className="flex items-center gap-3 w-fit ml-auto">
@@ -49,6 +57,11 @@ export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
         Next
         <ChevronsRight className="h-4 w-4 ml-2" />
       </Button>
+      {isLoading && (
+        <div className="fixed inset-0">
+          <Loader />
+        </div>
+      )}
     </div>
   );
 };
