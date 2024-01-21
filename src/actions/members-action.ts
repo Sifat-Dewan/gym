@@ -194,16 +194,13 @@ export async function createMember({
     return { error: "Membership plan not found" };
   }
 
-  const startDate = new Date();
-  startDate.setDate(values.startDate.getDate());
-  const endDate = new Date(startDate);
-  endDate.setMonth(endDate.getMonth() + membershipPlan.durationInMonth);
+  const endDate = new Date(values.startDate);
+  endDate.setMonth(endDate.getMonth() + membershipPlan.durationInMonth)
 
   await db.member.create({
     data: {
       ...values,
       age: values.age || 0,
-      startDate,
       endDate,
       cost,
       membershipPlanId,
@@ -255,10 +252,8 @@ export async function updateMember({
     return { error: "Member not found" };
   }
 
-  const startDate = new Date();
-  startDate.setDate(values.startDate.getDate());
-  const endDate = new Date(startDate);
-  endDate.setMonth(endDate.getMonth() + member.membershipPlan.durationInMonth);
+  const endDate = new Date(values.startDate);
+  endDate.setMonth(endDate.getMonth() + member.membershipPlan.durationInMonth)
 
   await db.member.update({
     where: {

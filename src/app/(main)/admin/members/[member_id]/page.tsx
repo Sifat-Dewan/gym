@@ -106,7 +106,7 @@ const MemberProfilePage = async ({
           <Separator />
           <div className="flex gap-5 mt-2">
             <p className="text-muted-foreground">Joined</p>
-            <p>{getFormattedDate(member.createdAt)}</p>
+            <p>{getFormattedDate(member.startDate)}</p>
           </div>
           {member.renews.map((renew, index) => (
             <div key={renew.id} className="flex flex-col gap-3 items-center">

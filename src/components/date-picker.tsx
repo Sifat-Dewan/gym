@@ -20,6 +20,14 @@ interface DatePickerProps {
 }
 
 export function DatePicker({ value, onChange, disabled }: DatePickerProps) {
+  const handleSelect = (value: Date | undefined) => {
+    if (value) {
+      const date = new Date();
+      value.setHours(date.getHours());
+      value.setMinutes(date.getMinutes());
+    }
+    onChange(value);
+  };
   return (
     <div className="w-full">
       <Popover>
@@ -41,7 +49,7 @@ export function DatePicker({ value, onChange, disabled }: DatePickerProps) {
           <Calendar
             mode="single"
             selected={value}
-            onSelect={onChange}
+            onSelect={(value) => handleSelect(value)}
             disabled={disabled}
             initialFocus
           />
