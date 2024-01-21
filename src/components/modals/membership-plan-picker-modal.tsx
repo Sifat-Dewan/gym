@@ -89,7 +89,7 @@ export const MembershipPlanPickerModal = () => {
                   variants={boxVariants}
                   initial="hidden"
                   animate="visible"
-                  className="flex flex-col h-full gap-1 items-center w-full border rounded-xl shadow p-3 px-5 bg-gradient-to-r from-indigo-500 via-pink-500 to-rose-500 text-white"
+                  className="flex flex-col h-full gap-1 items-center w-full border rounded-xl shadow p-3 px-5 bg-gradient-to-r from-purple-500 to-indigo-600 text-white"
                 >
                   <motion.h3
                     variants={listVariants}

@@ -18,7 +18,7 @@ const MembersPage = async ({
   const gender = searchParams.gender?.toUpperCase() as Gender;
   const orderby = searchParams.orderby as OrderBy;
   const membershipPlan = searchParams.membership_plan;
-  const take = 20;
+  const take = 1;
 
   const members = await getMembers({
     take,

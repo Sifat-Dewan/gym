@@ -202,8 +202,8 @@ export async function createMember({
   await db.member.create({
     data: {
       ...values,
-      startDate,
       age: values.age || 0,
+      startDate,
       endDate,
       cost,
       membershipPlanId,

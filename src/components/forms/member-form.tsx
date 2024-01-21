@@ -77,11 +77,13 @@ export const MemberForm = ({
   const pronoun = isModerator ? "Member's" : "Your";
   const totalCost = selectedPlan.price + admissionFee;
   const modifiedCost = params.get("modified_cost");
-  const [endDate, seeEndDate] = useState<Date>()
 
   const cost = modifiedCost ? Number(modifiedCost) : totalCost;
 
   function onSubmit(values: z.infer<typeof MemberSchema>) {
+    values.startDate.setHours(values.startDate.getHours() + 12);
+
+    return;
     startTranistion(() => {
       if (member) {
         updateMember({ values, memberId: member.id }).then(
