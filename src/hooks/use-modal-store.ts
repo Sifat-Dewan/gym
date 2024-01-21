@@ -27,7 +27,7 @@ interface ModalData {
   benefit?: Benefit;
   member?: MemberWithPlan;
   admissionFee?: number;
-  membershipPlanCost?: number;
+  totalCost?: number;
   faq?: Faq;
   isModerator?: boolean;
 }

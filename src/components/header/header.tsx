@@ -28,7 +28,7 @@ export const Header = ({ user }: { user: User | null }) => {
           ) : (
             <Link
               href={isLoginPage ? "/auth/sign-up" : "/auth/sign-in"}
-              className={buttonVariants({ variant: "default" })}
+              className={buttonVariants()}
             >
               {isLoginPage ? "Sign up" : "Log in"}
             </Link>

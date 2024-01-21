@@ -18,8 +18,8 @@ export const MembershipPlanCard = ({
 }: MembershipPlanCardProps) => {
   const { onOpen } = useModal();
   return (
-    <div className="flex flex-col p-5 border rounded-xl w-full max-w-[500px] mx-auto dark:bg-secondary/50">
-      <h3 className="font-bold text-2xl">{formatText(membershipPlan.name)}</h3>
+    <div className="flex flex-col p-5 border border-purple-500 rounded-xl w-full max-w-[500px] mx-auto dark:bg-secondary/50 shadow-lg">
+      <h3 className="font-bold text-3xl bg-gradient-to-r from-purple-500 to-indigo-600 w-fit text-transparent bg-clip-text">{formatText(membershipPlan.name)}</h3>
       <div className="mt-3 space-y-2">
         {membershipPlan.benefits.map((benefit) => (
           <div key={benefit.id} className="flex items-center gap-2">
@@ -30,7 +30,7 @@ export const MembershipPlanCard = ({
       </div>
       <div className="flex items-center mt-3">
         <span className="font-bold mt-2.5">৳</span>
-        <h1 className="text-primary text-4xl font-extrabold">
+        <h1 className="bg-gradient-to-r from-purple-500 to-indigo-600 w-fit text-transparent bg-clip-text text-4xl font-extrabold">
           {membershipPlan.price}
         </h1>
         <span className="mt-2.5 font-bold">

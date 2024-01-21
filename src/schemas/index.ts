@@ -103,6 +103,5 @@ export const AnswerSchema = z.object({
 });
 
 export const ChangeCostSchema = z.object({
-  membershipPlanCost: z.coerce.number().nullable(),
-  admissionFee: z.coerce.number().nullable(),
+  modifiedCost: z.coerce.number().nullable(),
 })

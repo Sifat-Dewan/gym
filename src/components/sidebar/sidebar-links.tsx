@@ -25,7 +25,7 @@ export const SidebarLinks = ({
           key={route.href}
           className={cn(
             "relative flex items-center gap-3 pl-10 py-3 hover:bg-primary/5 transition-all font-medium text-muted-foreground",
-            route.active && "font-semibold text-foreground bg-primary/5"
+            route.active && "font-semibold bg-primary/5 text-primary"
           )}
         >
           <route.icon className="h-5 w-5" />

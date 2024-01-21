@@ -63,7 +63,7 @@ export const PageHeader = ({
             onMouseLeave={() => animation.start("scaleDown")}
             whileTap={{ scale: 1.05 }}
             href={actionUrl}
-            className={buttonVariants()}
+            className={buttonVariants({variant: "gradiant"})}
           >
             Add new
             <PlusIcon

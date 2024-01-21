@@ -21,8 +21,8 @@ import { MemberSchema } from "@/schemas";
 import { FullMembershipPlan, MemberWithPlan } from "@/types";
 import { Gender, MembershipPlan } from "@prisma/client";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useTransition } from "react";
 import toast from "react-hot-toast";
 import { CardWrapper } from "../card-wrapper";
 import { DatePicker } from "../date-picker";
@@ -37,6 +37,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Separator } from "../ui/separator";
+import { cn } from "@/lib/utils";
 
 export const MemberForm = ({
   membershipPlans,
@@ -52,6 +53,8 @@ export const MemberForm = ({
   isModerator?: boolean;
 }) => {
   const [isPending, startTranistion] = useTransition();
+  const { onOpen } = useModal();
+  const params = useSearchParams();
   const router = useRouter();
   const confetti = useConfettiStore();
   const { onClose } = useModal();
@@ -72,6 +75,11 @@ export const MemberForm = ({
   });
 
   const pronoun = isModerator ? "Member's" : "Your";
+  const totalCost = selectedPlan.price + admissionFee;
+  const modifiedCost = params.get("modified_cost");
+  const [endDate, seeEndDate] = useState<Date>()
+
+  const cost = modifiedCost ? Number(modifiedCost) : totalCost;
 
   function onSubmit(values: z.infer<typeof MemberSchema>) {
     startTranistion(() => {
@@ -95,6 +103,7 @@ export const MemberForm = ({
         createMember({
           values,
           membershipPlanId: selectedPlan.id,
+          cost,
         }).then(({ error, success }) => {
           if (success) {
             toast.success(success);
@@ -319,10 +328,25 @@ export const MemberForm = ({
                   <span className="text-primary">{admissionFee}৳</span>
                 </p>
                 <Separator className="h-[1.5px]" />
-                <p className="text-muted-foreground select-none font-semibold">
+                <p
+                  onClick={() =>
+                    isModerator &&
+                    onOpen("CHANGE_COST_MODAL", {
+                      totalCost: cost,
+                    })
+                  }
+                  className="text-muted-foreground select-none font-semibold flex gap-2"
+                >
                   Total:{" "}
-                  <span className="text-primary">
-                    {selectedPlan.price + admissionFee}৳
+                  <span className="text-primary flex gap-2">
+                    <span
+                      className={cn(
+                        modifiedCost && "line-through text-muted-foreground"
+                      )}
+                    >
+                      {totalCost}৳
+                    </span>
+                    {modifiedCost && <span>{modifiedCost}৳</span>}
                   </span>
                 </p>
               </div>

@@ -14,42 +14,43 @@ import { useModal } from "@/hooks/use-modal-store";
 import { ChangeCostSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter } from "next/navigation";
-import qs from 'query-string';
+import qs from "query-string";
 import { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Input } from "../ui/input";
+import { RefreshCcw } from "lucide-react";
 
 export const ChangeCostModal = () => {
   const { isOpen, type, data, onClose } = useModal();
-  const [isPending, startTranistion] = useTransition();
   const router = useRouter();
   const pathname = usePathname();
-  const { admissionFee, membershipPlanCost } = data;
+  const { totalCost } = data;
   const form = useForm<z.infer<typeof ChangeCostSchema>>({
     resolver: zodResolver(ChangeCostSchema),
     defaultValues: {
-      membershipPlanCost: admissionFee,
-      admissionFee: membershipPlanCost,
+      modifiedCost: 0,
     },
   });
 
   useEffect(() => {
-    if (admissionFee) {
-      form.setValue("admissionFee", admissionFee);
+    if (totalCost) {
+      form.setValue("modifiedCost", totalCost);
     }
-  }, [form, admissionFee]);
+  }, [form, totalCost]);
 
   const onSubmit = (values: z.infer<typeof ChangeCostSchema>) => {
-    const url = qs.stringifyUrl({
-      url: pathname,
-      query: {
-        modified_plan_cost: values.membershipPlanCost,
-        modified_admission_fee: values.admissionFee,
-      }
-    }, {skipEmptyString: true, skipNull: true})
+    const url = qs.stringifyUrl(
+      {
+        url: pathname,
+        query: {
+          modified_cost: values.modifiedCost,
+        },
+      },
+      { skipEmptyString: true, skipNull: true }
+    );
 
-    router.push(url);
+    router.push(url, { scroll: false });
     onClose();
   };
 
@@ -66,14 +67,13 @@ export const ChangeCostModal = () => {
           >
             <FormField
               control={form.control}
-              name="membershipPlanCost"
+              name="modifiedCost"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Membership Plan Cost</FormLabel>
+                  <FormLabel>Enter Modified Total Cost</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Membership Plan Cost"
-                      isPending={isPending}
                       autoFocus
                       value={field.value!}
                       onChange={field.onChange}
@@ -83,28 +83,20 @@ export const ChangeCostModal = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="admissionFee"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Admission Fee</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Admission Fee"
-                      isPending={isPending}
-                      autoFocus
-                      value={field.value!}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button className="ml-auto" disabled={isPending}>
-              Save
-            </Button>
+            <div className="flex gap-4 justify-between">
+              <Button
+                onClick={() => {
+                  router.push(pathname, { scroll: false });
+                  onClose();
+                }}
+                type="button"
+                variant="destructive"
+              >
+                <RefreshCcw className="h-4 w-4 mr-2" />
+                Reset
+              </Button>
+              <Button>Save</Button>
+            </div>
           </form>
         </Form>
       </DialogContent>

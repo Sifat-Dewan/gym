@@ -30,6 +30,7 @@ export default async function Home() {
 
           <Link
             className={buttonVariants({
+              variant: "gradiant",
               size: "lg",
               className: "mt-5 group",
             })}
