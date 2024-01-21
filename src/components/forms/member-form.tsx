@@ -82,8 +82,6 @@ export const MemberForm = ({
 
   function onSubmit(values: z.infer<typeof MemberSchema>) {
     values.startDate.setHours(values.startDate.getHours() + 12);
-
-    return;
     startTranistion(() => {
       if (member) {
         updateMember({ values, memberId: member.id }).then(
