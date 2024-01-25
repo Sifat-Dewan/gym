@@ -36,11 +36,11 @@ export const ChangeCostModal = () => {
   });
 
   useEffect(() => {
-    form.setValue("modifiedCost", cost as number);
-  }, [form, cost]);
+    form.setValue("modifiedCost", (cost as number) || (totalCost as number));
+  }, [form, totalCost, cost]);
 
   const onSubmit = (values: z.infer<typeof ChangeCostSchema>) => {
-    setCost(values.modifiedCost as number)
+    setCost(values.modifiedCost as number);
     onClose();
   };
 
@@ -76,7 +76,7 @@ export const ChangeCostModal = () => {
             <div className="flex gap-4 justify-between">
               <Button
                 onClick={() => {
-                  setCost(undefined)
+                  setCost(undefined);
                   onClose();
                 }}
                 type="button"

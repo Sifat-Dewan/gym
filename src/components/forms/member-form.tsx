@@ -38,6 +38,7 @@ import {
 } from "../ui/select";
 import { Separator } from "../ui/separator";
 import { cn } from "@/lib/utils";
+import { useCostStore } from "@/hooks/use-cost-store";
 
 export const MemberForm = ({
   membershipPlans,
@@ -76,9 +77,7 @@ export const MemberForm = ({
 
   const pronoun = isModerator ? "Member's" : "Your";
   const totalCost = selectedPlan.price + admissionFee;
-  const modifiedCost = params.get("modified_cost");
-
-  const cost = modifiedCost ? Number(modifiedCost) : totalCost;
+  const { cost } = useCostStore();
 
   function onSubmit(values: z.infer<typeof MemberSchema>) {
     startTranistion(() => {
@@ -120,6 +119,11 @@ export const MemberForm = ({
       }
     });
   }
+
+  const handleOpenCostModal = () => {
+    if (!isModerator) return null;
+    onOpen("CHANGE_COST_MODAL", { totalCost: cost || totalCost });
+  };
 
   return (
     <CardWrapper>
@@ -330,25 +334,19 @@ export const MemberForm = ({
                 </p>
                 <Separator className="h-[1.5px]" />
                 <p
-                  onClick={() =>
-                    isModerator &&
-                    onOpen("CHANGE_COST_MODAL", {
-                      totalCost: cost,
-                    })
-                  }
+                  onClick={handleOpenCostModal}
                   className="text-muted-foreground select-none font-semibold flex gap-2"
                 >
                   Total:{" "}
-                  <span className="text-primary flex gap-2">
-                    <span
-                      className={cn(
-                        modifiedCost && "line-through text-muted-foreground"
-                      )}
-                    >
-                      {totalCost}৳
-                    </span>
-                    {modifiedCost && <span>{modifiedCost}৳</span>}
+                  <span
+                    className={cn(
+                      "text-primary",
+                      cost && "line-through text-muted-foreground"
+                    )}
+                  >
+                    {totalCost}৳
                   </span>
+                  {cost && <span className="text-primary">{cost}৳</span>}
                 </p>
               </div>
             )}

@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal-store";
-import { formatText } from "@/lib/utils";
+import { cn, formatText } from "@/lib/utils";
 import { FullMembershipPlan, MemberWithPlanAndRenew } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MembershipPlan } from "@prisma/client";
@@ -136,15 +136,22 @@ export const RenewMemberForm = ({
             <Separator className="h-[1.5px]" />
             <p
               onClick={() => {
-                setCost(cost || selectedPlan.price)
-                onOpen("CHANGE_COST_MODAL")
+                onOpen("CHANGE_COST_MODAL", {
+                  totalCost: cost || selectedPlan.price,
+                });
               }}
-              className="text-muted-foreground font-semibold cursor-pointer"
+              className="text-muted-foreground select-none font-semibold flex gap-2"
             >
-              Cost:{" "}
-              <span className="text-primary">
-                {(cost as number) >= 0 ? cost : selectedPlan.price}৳
+              Total:{" "}
+              <span
+                className={cn(
+                  "text-primary",
+                  cost && "line-through text-muted-foreground"
+                )}
+              >
+                {selectedPlan.price}৳
               </span>
+              {cost && <span className="text-primary">{cost}৳</span>}
             </p>
           </div>
           <Button

@@ -150,7 +150,7 @@ export async function createMember({
 }: {
   values: z.infer<typeof MemberSchema>;
   membershipPlanId: string;
-  cost: number;
+  cost: number | undefined;
 }) {
   const validatedFields = MemberSchema.safeParse(values);
 
@@ -194,15 +194,19 @@ export async function createMember({
     return { error: "Membership plan not found" };
   }
 
+  const admissnFee =
+    (await db.defaultSettings.findFirst().then((res) => res?.admissionFee)) ||
+    0;
+
   const endDate = new Date(values.startDate);
-  endDate.setMonth(endDate.getMonth() + membershipPlan.durationInMonth)
+  endDate.setMonth(endDate.getMonth() + membershipPlan.durationInMonth);
 
   await db.member.create({
     data: {
       ...values,
       age: values.age || 0,
       endDate,
-      cost,
+      cost: cost || membershipPlan.price + admissnFee,
       membershipPlanId,
       ...(isModerator(user) ? { isPaid: true } : { email: user.email }),
     },
@@ -253,7 +257,7 @@ export async function updateMember({
   }
 
   const endDate = new Date(values.startDate);
-  endDate.setMonth(endDate.getMonth() + member.membershipPlan.durationInMonth)
+  endDate.setMonth(endDate.getMonth() + member.membershipPlan.durationInMonth);
 
   await db.member.update({
     where: {
