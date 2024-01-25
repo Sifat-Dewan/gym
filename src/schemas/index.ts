@@ -41,6 +41,13 @@ export const MemberSchema = z.object({
   }),
 });
 
+export const renewMemberSchema = z.object({
+  startDate: z.date({
+    required_error: "Date is required",
+    invalid_type_error: "Date is required",
+  }),
+});
+
 export const MembershipPlanSchema = z.object({
   name: z
     .string()

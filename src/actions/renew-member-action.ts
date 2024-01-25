@@ -3,15 +3,19 @@
 import { currentUser } from "@/lib/current-user";
 
 import db from "@/lib/db";
-import { getEndingDate, isModerator } from "@/lib/utils";
+import { isModerator } from "@/lib/utils";
 import { differenceInDays } from "date-fns";
 
 export async function renewMember({
   membershipPlanId,
   memberId,
+  startDate,
+  cost,
 }: {
   membershipPlanId: string;
   memberId: string;
+  startDate: Date;
+  cost?: number;
 }) {
   const user = await currentUser();
 
@@ -52,17 +56,8 @@ export async function renewMember({
     return { error: "Member not found" };
   }
 
-  const isInvalidMember = () => {
-    const difference = differenceInDays(member.endDate, new Date());
-    return difference < -30;
-  };
-
-  const startDate = isInvalidMember() ? new Date() : member.endDate;
-
-  const endDate = getEndingDate({
-    startDate,
-    durationInMonth: membershipPlan.durationInMonth,
-  });
+  const endDate = new Date(startDate);
+  endDate.setMonth(endDate.getMonth() + membershipPlan.durationInMonth);
 
   await db.member.update({
     where: {
@@ -72,8 +67,9 @@ export async function renewMember({
       endDate,
       renews: {
         create: {
+          startDate,
           membershipPlanId,
-          cost: membershipPlan.price,
+          cost: cost || membershipPlan.price,
         },
       },
     },

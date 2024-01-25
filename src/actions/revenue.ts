@@ -34,7 +34,7 @@ export const getGraphRevenue = async () => {
   for (const member of members) {
     const month = member.createdAt.getMonth();
     for (const renew of member.renews) {
-      const renewMonth = renew.createdAt.getMonth();
+      const renewMonth = renew.startDate.getMonth();
       monthlyRevenue[renewMonth] = (monthlyRevenue[month] || 0) + renew.cost;
     }
     monthlyRevenue[month] = (monthlyRevenue[month] || 0) + member.cost;

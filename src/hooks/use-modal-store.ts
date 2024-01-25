@@ -30,6 +30,7 @@ interface ModalData {
   totalCost?: number;
   faq?: Faq;
   isModerator?: boolean;
+  startDate?: Date;
 }
 
 interface ModalStore {

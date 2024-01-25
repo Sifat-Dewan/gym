@@ -32,7 +32,7 @@ const MemberProfilePage = async ({
   };
 
   const lastRenew = member.renews.length
-    ? getFormattedDate(member.renews[0].createdAt)
+    ? getFormattedDate(member.renews[0].startDate)
     : "Null";
 
   const lists = [
@@ -76,8 +76,8 @@ const MemberProfilePage = async ({
 
   return (
     <div className="space-y-3">
-      <PageHeader label={member.name} />
-      <div className="flex flex-col gap-6 py-6 max-w-[500px] border rounded-xl shadow-lg mx-auto sm:px-3">
+      <PageHeader label={member.name} backButtonUrl="/admin/members" />
+      <div className="bg-background flex flex-col gap-6 py-6 max-w-[500px] border rounded-xl shadow-lg mx-auto sm:px-3">
         <MemberPhoto image={member.image} className="mx-auto" />
         <section className="grid grid-cols-2 overflow-hidden">
           {lists.map((item, index) => (
@@ -104,9 +104,10 @@ const MemberProfilePage = async ({
         <section className="flex flex-col gap-2 items-center font-medium">
           <h4 className="font-bold">Status</h4>
           <Separator />
-          <div className="flex gap-5 mt-2">
+          <div className="flex gap-4 mt-2">
             <p className="text-muted-foreground">Joined</p>
             <p>{getFormattedDate(member.startDate)}</p>
+            <p className="text-green-500">+{member.cost}৳</p>
           </div>
           {member.renews.map((renew, index) => (
             <div key={renew.id} className="flex flex-col gap-3 items-center">
@@ -123,7 +124,8 @@ const MemberProfilePage = async ({
                     : "th"}{" "}
                   renew
                 </p>
-                <p>{getFormattedDate(renew.createdAt)}</p>
+                <p>{getFormattedDate(renew.startDate)}</p>
+                <p className="text-green-500">+{renew.cost}৳</p>
               </div>
             </div>
           ))}

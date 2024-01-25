@@ -14,26 +14,25 @@ export const Header = ({ user }: { user: User | null }) => {
   const pathname = usePathname();
   const isLoginPage = pathname === "/auth/sign-in";
   return (
-    <header className="sticky z-50 bg-background/80 backdrop-blur-lg top-0 inset-x-0 border-b">
-      <MaxWidthWrapper className="py-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <MobileSidebar isModerator={isModerator(user)} />
-            <Logo />
-          </div>
-          {user ? (
-            <div className="w-[32px]">
-              <UserButton afterSignOutUrl="/" />
-            </div>
-          ) : (
-            <Link
-              href={isLoginPage ? "/auth/sign-up" : "/auth/sign-in"}
-              className={buttonVariants()}
-            >
-              {isLoginPage ? "Sign up" : "Log in"}
-            </Link>
-          )}
+    <header className="sticky z-50 top-0 inset-x-0 border-b shadow-md">
+      <div className="fixed inset-x-0 top-0 h-[75px] bg-background -z-10 border-b" />
+      <MaxWidthWrapper className="flex w-full bg-background items-center justify-between h-[75px]">
+        <div className="flex items-center gap-4">
+          <MobileSidebar isModerator={isModerator(user)} />
+          <Logo />
         </div>
+        {user ? (
+          <div className="w-[32px]">
+            <UserButton afterSignOutUrl="/" />
+          </div>
+        ) : (
+          <Link
+            href={isLoginPage ? "/auth/sign-up" : "/auth/sign-in"}
+            className={buttonVariants()}
+          >
+            {isLoginPage ? "Sign up" : "Log in"}
+          </Link>
+        )}
       </MaxWidthWrapper>
     </header>
   );

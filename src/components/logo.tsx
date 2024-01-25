@@ -12,19 +12,13 @@ export const Logo = ({ className }: LogoProps) => {
   return (
     <Link
       href="/"
-      className={cn("relative w-[200px] h-[50px] overflow-hidden", className)}
+      className={cn("relative overflow-hidden", className)}
     >
       <Image
-        src="/images/logo-light.png"
-        fill
+        src="/images/logo.png"
+        height={60}
+        width={120}
         alt="Logo"
-        className="dark:hidden"
-      />
-      <Image
-        src="/images/logo-dark.png"
-        fill
-        alt="Logo"
-        className="hidden dark:block"
       />
     </Link>
   );

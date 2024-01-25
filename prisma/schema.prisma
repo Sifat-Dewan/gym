@@ -76,7 +76,7 @@ model Renew {
   memberId String @db.ObjectId
 
   cost      Int
-  createdAt DateTime @default(now())
+  startDate DateTime
 
   membershipPlan   MembershipPlan @relation(fields: [membershipPlanId], references: [id], onDelete: Cascade)
   membershipPlanId String         @db.ObjectId

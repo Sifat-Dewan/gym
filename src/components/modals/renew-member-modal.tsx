@@ -8,40 +8,41 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import { approveMember } from "@/actions/members-action";
+import { renewMember } from "@/actions/renew-member-action";
+import { useConfettiStore } from "@/hooks/use-confetti-store";
 import { useModal } from "@/hooks/use-modal-store";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
-import { renewMember } from "@/actions/renew-member-action";
-import { useConfettiStore } from "@/hooks/use-confetti-store";
+import { useCostStore } from "@/hooks/use-cost-store";
 
 export const RenewMemberModal = () => {
   const { isOpen, type, data, onClose } = useModal();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const confetti = useConfettiStore();
+  const { cost } = useCostStore();
 
-  const { memberId, membershipPlanId } = data;
+  const { memberId, membershipPlanId, startDate } = data;
 
-  if (!memberId || !membershipPlanId) return null;
+  if (!memberId || !membershipPlanId || !startDate) return null;
 
   const onConfirm = () => {
     startTransition(() => {
-      renewMember({ memberId, membershipPlanId }).then(({ error, success }) => {
-        if (success) {
-          toast.success(success);
-          onClose();
-          router.push(`/admin/members/${memberId}`);
-          router.refresh();
-          confetti.onOpen();
-        } else if (error) {
-          toast.success(error);
-        } else {
-          toast.error("Something went wrong");
+      renewMember({ memberId, membershipPlanId, startDate, cost }).then(
+        ({ error, success }) => {
+          if (success) {
+            toast.success(success);
+            onClose();
+            router.push(`/admin/members/${memberId}`);
+            router.refresh();
+            confetti.onOpen();
+          } else if (error) {
+            toast.success(error);
+          }
         }
-      });
+      );
     });
   };
 

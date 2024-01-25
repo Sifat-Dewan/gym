@@ -81,7 +81,6 @@ export const MemberForm = ({
   const cost = modifiedCost ? Number(modifiedCost) : totalCost;
 
   function onSubmit(values: z.infer<typeof MemberSchema>) {
-   
     startTranistion(() => {
       if (member) {
         updateMember({ values, memberId: member.id }).then(
@@ -299,23 +298,25 @@ export const MemberForm = ({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="startDate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Enrollment Date</FormLabel>
-                <FormControl>
-                  <DatePicker
-                    value={field.value}
-                    onChange={field.onChange}
-                    disabled={isPending}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {!member && (
+            <FormField
+              control={form.control}
+              name="startDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Enrollment Date</FormLabel>
+                  <FormControl>
+                    <DatePicker
+                      value={field.value}
+                      onChange={field.onChange}
+                      disabled={isPending}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
           <div className="flex items-center justify-between">
             {!member && (
               <div className="flex flex-col gap-1">

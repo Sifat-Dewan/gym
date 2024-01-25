@@ -20,10 +20,12 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Input } from "../ui/input";
 import { RefreshCcw } from "lucide-react";
+import { useCostStore } from "@/hooks/use-cost-store";
 
 export const ChangeCostModal = () => {
   const { isOpen, type, data, onClose } = useModal();
   const router = useRouter();
+  const { cost, setCost } = useCostStore();
   const pathname = usePathname();
   const { totalCost } = data;
   const form = useForm<z.infer<typeof ChangeCostSchema>>({
@@ -34,23 +36,11 @@ export const ChangeCostModal = () => {
   });
 
   useEffect(() => {
-    if (totalCost) {
-      form.setValue("modifiedCost", totalCost);
-    }
-  }, [form, totalCost]);
+    form.setValue("modifiedCost", cost as number);
+  }, [form, cost]);
 
   const onSubmit = (values: z.infer<typeof ChangeCostSchema>) => {
-    const url = qs.stringifyUrl(
-      {
-        url: pathname,
-        query: {
-          modified_cost: values.modifiedCost,
-        },
-      },
-      { skipEmptyString: true, skipNull: true }
-    );
-
-    router.push(url, { scroll: false });
+    setCost(values.modifiedCost as number)
     onClose();
   };
 
@@ -86,7 +76,7 @@ export const ChangeCostModal = () => {
             <div className="flex gap-4 justify-between">
               <Button
                 onClick={() => {
-                  router.push(pathname, { scroll: false });
+                  setCost(undefined)
                   onClose();
                 }}
                 type="button"

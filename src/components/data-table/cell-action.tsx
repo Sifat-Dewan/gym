@@ -20,7 +20,6 @@ interface CellActionProps {
 export const CellAction = ({ member }: CellActionProps) => {
   const { onOpen } = useModal();
   const router = useRouter();
-  const difference = differenceInDays(member.endDate, new Date());
 
   const items = [
     {
@@ -31,7 +30,6 @@ export const CellAction = ({ member }: CellActionProps) => {
     {
       label: "Renew",
       icon: Calendar,
-      disabled: difference > 15,
       onClick: () =>
         router.push(
           `/admin/members/${member.id}/renew/?selected_plan=${member.membershipPlanId}`
