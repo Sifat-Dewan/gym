@@ -18,7 +18,9 @@ export const Header = ({ user }: { user: User | null }) => {
       <div className="fixed inset-x-0 top-0 h-[75px] bg-background -z-10 border-b" />
       <MaxWidthWrapper className="flex w-full bg-background items-center justify-between h-[75px]">
         <div className="flex items-center gap-4">
-          <MobileSidebar isModerator={isModerator(user)} />
+          <div className="md:hidden">
+            <MobileSidebar isModerator={isModerator(user)} />
+          </div>
           <Logo />
         </div>
         {user ? (

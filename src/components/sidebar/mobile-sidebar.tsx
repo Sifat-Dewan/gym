@@ -1,13 +1,12 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { Menu } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Logo } from "../logo";
 import { ThemeToggler } from "../theme-toggler";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { SidebarLinks } from "./sidebar-links";
-import { cn } from "@/lib/utils";
 
 export const MobileSidebar = ({ isModerator }: { isModerator: boolean }) => {
   const [open, setOpen] = useState(false);
@@ -24,7 +23,7 @@ export const MobileSidebar = ({ isModerator }: { isModerator: boolean }) => {
     <Sheet open={open} onOpenChange={handleClick}>
       <SheetTrigger
         className={cn(
-          "flex md:hidden items-center justify-center h-10 w-10 rounded-md hover:bg-accent transition"
+          "flex items-center justify-center h-10 w-10 rounded-md hover:bg-accent transition"
         )}
         onClick={handleClick}
       >
