@@ -164,6 +164,16 @@ export async function createMember({
     return { error: "Unauthenticated!" };
   }
 
+  const existingId = await db.member.findFirst({
+    where: {
+      memberId: values.memberId,
+    },
+  });
+
+  if (existingId) {
+    return { error: "ID already exists" };
+  }
+
   const existingEmail = await db.member.findFirst({
     where: {
       email: values.email,
@@ -249,6 +259,7 @@ export async function updateMember({
     },
     include: {
       membershipPlan: true,
+      renews: true,
     },
   });
 
@@ -256,7 +267,11 @@ export async function updateMember({
     return { error: "Member not found" };
   }
 
-  const endDate = new Date(values.startDate);
+  const startDate = member.renews.length
+    ? member.renews[member.renews.length - 1].startDate
+    : values.startDate;
+
+  const endDate = new Date(startDate);
   endDate.setMonth(endDate.getMonth() + member.membershipPlan.durationInMonth);
 
   await db.member.update({
