@@ -7,11 +7,14 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Filter } from "./filter";
 import { TableSearchInput } from "./table-search-input";
+import { PaginationDropdownMenu } from "../pagination-dropdown-menu";
 
 export const TableFilters = ({
   membershipPlans,
+  maxPages
 }: {
   membershipPlans: MembershipPlan[];
+  maxPages: number;
 }) => {
   const [value, setValue] = useState("");
   const params = useSearchParams();
@@ -21,7 +24,7 @@ export const TableFilters = ({
     setValue("");
     router.push("/admin/members");
   };
-
+  
   return (
     <section className="flex gap-3 flex-wrap">
       <TableSearchInput
@@ -36,6 +39,7 @@ export const TableFilters = ({
         filterKey="membership_plan"
         title="Membership Plan"
       />
+      <PaginationDropdownMenu maxPages={maxPages}/>
       {!!params.size && (
         <Button onClick={handleReset} className="group h-8" variant="outline">
           Reset

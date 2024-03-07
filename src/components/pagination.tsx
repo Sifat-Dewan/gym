@@ -10,12 +10,13 @@ import { cn } from "@/lib/utils";
 import { Loader } from "./loader";
 
 interface PaginationProps {
-  currentPage: number;
   totalPages: number;
 }
 
-export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
+export const Pagination = ({ totalPages }: PaginationProps) => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
   const router = useRouter();
   const params = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +31,7 @@ export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
       },
     });
 
-    router.push(url, { scroll: false });
+    router.push(url);
   };
 
   const handlePageClick = (event: { selected: number }) => {

@@ -23,18 +23,7 @@ export const TableSearchInput = ({ value, onChange }: SearchProps) => {
 
   useEffect(() => {
     if (debouncedValue) {
-      const url = qs.stringifyUrl(
-        {
-          url: pathname,
-          query: {
-            ...currentQuery,
-            q: value,
-          },
-        },
-        { skipEmptyString: true, skipNull: true }
-      );
-
-      router.push(url);
+      router.push(`${pathname}?q=${debouncedValue}`);
     }
   }, [debouncedValue, pathname, router, currentQuery, value]);
 

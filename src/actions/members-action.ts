@@ -184,13 +184,13 @@ export async function createMember({
     return { error: "Email already exists" };
   }
 
-  const existingPhone = await db.member.findUnique({
+  const existingPhone = await db.member.findFirst({
     where: {
       phone: values.phone,
     },
   });
 
-  if (existingPhone) {
+  if (values.phone && existingPhone) {
     return { error: "Phone already exists" };
   }
 

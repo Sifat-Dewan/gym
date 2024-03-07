@@ -9,6 +9,7 @@ import { Badge } from "../ui/badge";
 import { CellAction } from "./cell-action";
 import { StatusCellHeader } from "./status-cell-header";
 import { MemberWithPlanAndRenew } from "@/types";
+import Link from "next/link";
 
 export const columns: ColumnDef<MemberWithPlanAndRenew>[] = [
   {
@@ -24,7 +25,7 @@ export const columns: ColumnDef<MemberWithPlanAndRenew>[] = [
     header: "Name",
     cell: ({ row }) => {
       return (
-        <div className="flex items-center gap-2">
+        <Link href={`/admin/members/${row.original.id}`} className="flex items-center gap-2">
           <Avatar image={row.original.image} alt={row.original.name} />
           <div>
             <h4 className="font-semibold text-sm whitespace-nowrap">
@@ -34,7 +35,7 @@ export const columns: ColumnDef<MemberWithPlanAndRenew>[] = [
               {row.original.phone}
             </p>
           </div>
-        </div>
+        </Link >
       );
     },
   },
@@ -48,6 +49,14 @@ export const columns: ColumnDef<MemberWithPlanAndRenew>[] = [
   {
     accessorKey: "phone",
     header: "Phone",
+    cell: ({ row }) => {
+      const phone = row.original.phone;
+      return (
+        <p className={cn(!phone && "text-muted-foreground")}>
+          {phone || "Not Given"}
+        </p>
+      );
+    },
   },
   {
     accessorKey: "membershipPlan",
